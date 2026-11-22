@@ -83,10 +83,9 @@ function execute(program, input) {
         else { stack.pop(); memory[a] = stack.pop(); }
         break;
       case 0x50:
-        a = stack[n - 1];
-        value = Buffer.from(String(a));
+        value = String(stack[n - 1]);
         if (length + value.length > 65536) { code = 11; break; }
-        stack.pop(); value.copy(out, length); length += value.length; break;
+        stack.pop(); out.write(value, length, 'ascii'); length += value.length; break;
       case 0x51:
         if (length === 65536) { code = 11; break; }
         out[length++] = stack.pop() & 255; break;
